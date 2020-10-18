@@ -26,6 +26,7 @@ public class HttpbinApplication {
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(false)
                 .tags(
+                        new Tag("HTTP Methods", "Testing different HTTP verbs"),
                         new Tag("Request Inspection", "Inspect the request data")
                 )
                 .apiInfo(apiInfo())
