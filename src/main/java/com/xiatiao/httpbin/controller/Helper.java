@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Strings;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 public class Helper {
@@ -60,13 +60,18 @@ public class Helper {
     }
 
     private String getUrl() {
-//        String protocol = request.getHeader("x-forwarded-proto");
-//        if (Strings.isNullOrEmpty(protocol)) {
-//            protocol = request.getHeader("x-forwarded-protocol");
-//        }
-//        if (Strings.isNullOrEmpty(protocol) && request.getHeader("x-forwarded-ssl").equals("on")) {
-//            protocol = "https";
-//        }
-        return ((ServletWebRequest) request).getRequest().getRequestURL().toString();
+        String url = ((ServletWebRequest) request).getRequest().getRequestURL().toString();
+        String protocol = request.getHeader("x-forwarded-proto");
+        if (Strings.isNullOrEmpty(protocol)) {
+            protocol = request.getHeader("x-forwarded-protocol");
+        }
+        if (Strings.isNullOrEmpty(protocol) && request.getHeader("x-forwarded-ssl").equals("on")) {
+            protocol = "https";
+        }
+        if (Strings.isNullOrEmpty(protocol)) {
+            return url;
+        }
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url);
+        return builder.scheme(protocol).toUriString();
     }
 }
