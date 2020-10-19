@@ -40,7 +40,7 @@ public class HttpbinApplication {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Httpbin")
-                .description("A simple HTTP Request & Response Service.")
+                .description("A simple HTTP Request & Response Service.\n" + "<a href=\"https://github.com/wych42/httpbin\">Source Code</a>")
                 .version("2.0")
                 .build();
     }
